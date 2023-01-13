@@ -1,16 +1,16 @@
 import React from "react";
 import Item from "./Item";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { FreeMode, Navigation } from "swiper";
+import SwiperCore, { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/hash-navigation";
-import { useSwiper } from "swiper/react";
+import { Link } from "react-router-dom";
 
 const CategoryItems = () => {
-  const navigationPrevRef = React.useRef<HTMLButtonElement>(null);
-  const navigationNextRef = React.useRef<HTMLButtonElement>(null);
-  const [swipe, setSwipe] = React.useState<any>();
+  const navigationPrevRef = React.useRef<HTMLButtonElement | null>(null);
+  const navigationNextRef = React.useRef<HTMLButtonElement | null>(null);
+  const [swipe, setSwipe] = React.useState<SwiperCore | undefined>();
 
   return (
     <div className="container max-w-[1144px] mx-auto mb-[80px]">
@@ -45,7 +45,7 @@ const CategoryItems = () => {
               />
             </svg>
           </button>
-          <button ref={navigationNextRef} onClick={() => swipe?.slideNext()}>
+          <button onClick={() => swipe?.slideNext()}>
             <svg
               width="40"
               height="40"
@@ -67,10 +67,7 @@ const CategoryItems = () => {
       </div>
       <div className="flex relative">
         <Swiper
-          freeMode={true}
           grabCursor={true}
-          modules={[FreeMode, Navigation]}
-          className="[mySwiper]"
           slidesPerView={5}
           spaceBetween={5}
           onBeforeInit={(swipper) => setSwipe(swipper)}
@@ -143,9 +140,11 @@ const CategoryItems = () => {
       <div className="flex justify-between items-center pt-[20px]">
         <div className="text-gc2 w-full border-[0.5px] bg-gc2" />
         <div className="">
-          <button className=" bg-black2 text-white py-4 px-10 whitespace-nowrap ml-4">
-            Показать все
-          </button>
+          <Link to={"/Category"}>
+            <button className=" bg-black2 text-white py-4 px-10 whitespace-nowrap ml-4">
+              Показать все
+            </button>
+          </Link>
         </div>
       </div>
     </div>

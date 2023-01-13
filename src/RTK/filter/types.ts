@@ -27,3 +27,10 @@ export interface IitemsSliceState {
   items: Iitem[]
   status: Status;
 }
+
+export interface IFilterState {
+  filter: {
+    category: string;
+
+  }
+}

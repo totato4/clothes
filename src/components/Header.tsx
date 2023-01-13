@@ -1,11 +1,16 @@
 import React from "react";
 import HeaderDropMenu from "./HeaderDropMenu";
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "./../RTK/store";
+import { setCategory } from "../RTK/filter/filterSlice";
+import { PopupClick } from "../types/types";
 
 export const categories = [[], "Женщинам", "Мужчинам", "Детям"];
-type PopupClick = React.MouseEvent<HTMLBodyElement> & { path: Node[] };
 
 const Header: React.FC = () => {
   const [category, setCategory] = React.useState<number | false>(false);
+  // const category = useAppSelector((state) => state.filterSlice.filter.category);
+  const dispatch = useAppDispatch();
 
   const toggleMenu = (i: number) => {
     category == i ? setCategory(false) : setCategory(i);
@@ -33,7 +38,9 @@ const Header: React.FC = () => {
       <div className=" font-montserat max-w-[1140px] mx-auto  select-none relative">
         <div className="flex justify-between items-center pt-5 pb-5 ">
           <div className="text-yc1 xl:text-[25px] leading-[30.48px] font-bold">
-            <button>LOGO</button>
+            <Link to={"/"}>
+              <button>LOGO</button>
+            </Link>
           </div>
           <nav>
             <ul className=" flex gap-14 justify-center items-center align-middle font-normal text-[16px] leading-[19.5px]">
@@ -78,7 +85,7 @@ const Header: React.FC = () => {
         </div>
         <div className="text-gc2 w-full border-[0.5px] bg-gc2 "></div>
       </div>
-      <HeaderDropMenu setCategory={setCategory} category={category} />
+      <HeaderDropMenu category={category} />
     </div>
   );
 };

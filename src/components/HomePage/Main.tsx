@@ -1,6 +1,6 @@
 import React from "react";
-import CategoryItems from "./CategoryItems";
-import { Slider } from "./Slider";
+import CategoryItems from "../CategoryItems";
+import { Slider } from "../Slider";
 
 const filterTagsArray = [
   "Женские пальто с заклепками",

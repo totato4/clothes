@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-
-interface Props {
-  category: number | false;
-  setCategory: (value: number | false) => void;
-}
+import { Link } from "react-router-dom";
+import { setCategory } from "../RTK/filter/filterSlice";
+import { useAppDispatch, useAppSelector } from "./../RTK/store";
 
 const dropSubCategoryArray = [
   [
@@ -89,7 +87,7 @@ const dropSubCategoryArray = [
   ],
 ];
 
-const dropCategoryArray = [
+const filterArray = [
   [" Одежда "],
   ["Обувь  "],
   [" Аксессуары "],
@@ -100,17 +98,31 @@ const dropCategoryArray = [
 ];
 
 const categories = [[], "ЖЕНСКАЯ ОДЕЖДА", "МУЖСКАЯ ОДЕЖДА", "ДЕТСКАЯ ОДЕЖДА"];
+type props = { category: number | false };
 
-const HeaderDropMenu: React.FC<Props> = ({ category, setCategory }: Props) => {
-  const [dropCategory, setdropCategory] = React.useState(0);
+const HeaderDropMenu: React.FC<props> = ({ category }) => {
+  const dispatch = useAppDispatch();
 
-  const changeCategory = (i: number) => {
-    setdropCategory(i);
+  // filter
+
+  const [filter, onSetFilter] = React.useState<false | number>(false);
+
+  const changeFilter = (i: false | number) => {
+    onSetFilter(i);
+    onSetSubFilter(false);
+  };
+
+  // subFilter
+
+  const [subFilter, onSetSubFilter] = React.useState<false | number>(false);
+
+  const handleCategory = (obj: string) => {
+    dispatch(setCategory(obj));
   };
 
   return (
     <>
-      {category ? (
+      {category !== false && (
         <div className="w-full bg-white shadow-md pb-[70px] select-none absolute z-20">
           <div className="max-w-[1144px] mx-auto">
             <div
@@ -121,12 +133,12 @@ const HeaderDropMenu: React.FC<Props> = ({ category, setCategory }: Props) => {
               <div className="mb-[18px]">
                 <nav>
                   <ul className="flex gap-[40px] font-medium text-gc1 text-[16px] leading-[19.5px] ">
-                    {dropCategoryArray.map((obj, i) => (
+                    {filterArray.map((obj, i) => (
                       <li
                         className={`${
-                          dropCategory == i ? "text-black2 font-bold" : ""
+                          filter == i ? "text-black2 font-bold" : ""
                         } cursor-pointer`}
-                        onClick={() => changeCategory(i)}
+                        onClick={() => changeFilter(i)}
                         key={i}
                       >
                         {obj}
@@ -146,20 +158,20 @@ const HeaderDropMenu: React.FC<Props> = ({ category, setCategory }: Props) => {
             </div>
             <nav>
               <ul className="grid grid-cols-4 grid-rows-6 mt-[30px] gap-x-[149px] gap-y-5 max-w-[1144px] h-[202px] whitespace-nowrap list-style pl-4 ">
-                {dropSubCategoryArray[dropCategory].map((obj, i) => (
-                  <li
-                    className="before:absolute relative before:-left-[16px] before:top-[60%] before:w-[6px] before:h-[6px] before:bg-[#F8991D]"
-                    key={obj + i}
-                  >
-                    {obj}
-                  </li>
-                ))}
+                {filter !== false &&
+                  dropSubCategoryArray[filter].map((obj, i) => (
+                    <li
+                      className="before:absolute relative before:-left-[16px] before:top-[60%] before:w-[6px] before:h-[6px] before:bg-[#F8991D]"
+                      key={obj + i}
+                      onClick={() => handleCategory(obj)}
+                    >
+                      <Link to="/Category">{obj}</Link>
+                    </li>
+                  ))}
               </ul>
             </nav>
           </div>
         </div>
-      ) : (
-        <></>
       )}
     </>
   );
