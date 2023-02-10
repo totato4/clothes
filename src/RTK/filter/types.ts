@@ -1,17 +1,8 @@
+import { Iitem } from "../asyncThunk/types";
 
 
 
 
-
-export interface Iitem {
-  id: string;
-  imageUrl: string;
-  name: string;
-  category?: number;
-  price: number;
-  rating?: number;
-  discount?: number | boolean;
-}
 
 
 
@@ -28,9 +19,29 @@ export interface IitemsSliceState {
   status: Status;
 }
 
+export type ICategory = {
+      clothes: string;
+      humanCategory: string  ;
+}
+
+export type ICategoriesArray = string[];
+
 export interface IFilterState {
   filter: {
-    category: string;
-
+    category: ICategory;
+    categoriesArray: ICategoriesArray;
+    color:  string;
+  size:  string;
+  brand: string;
+    price: SortPriceType;
+    pagination: {
+      page: number;
+      pageQty: number;
+    }
+    query: string;
   }
 }
+
+
+export type SortCategory = number | number[] | boolean;
+export type SortPriceType = [number, number]

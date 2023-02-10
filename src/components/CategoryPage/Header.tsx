@@ -1,6 +1,7 @@
 import React from "react";
 import { PopupClick } from "../../types/types";
 import Sort from "./Sort/Sort";
+import { useAppSelector } from "./../../RTK/store";
 
 const tagsArray = [
   { name: "Худи", tagId: 1 },
@@ -15,14 +16,36 @@ const tagsArray = [
   { name: "Без воротника", tagId: 6 },
 ];
 
+const forWho = [
+  { name: "Женские", humanCategory: "woman" },
+  { name: "Мужские", humanCategory: "man" },
+  { name: "Детские", humanCategory: "kid" },
+];
+
 const Header = () => {
   const [showTags, setShowTags] = React.useState(false);
+
+  const { humanCategory, clothes } = useAppSelector(
+    (state) => state.filterSlice.filter.category
+  );
+
+  const [nameHuman, setNameHuman] = React.useState("Женские");
+
+  React.useEffect(() => {
+    if (humanCategory && clothes) {
+      const value = forWho.filter((obj) => obj.humanCategory == humanCategory);
+
+      setNameHuman(value[0].name);
+    }
+  }, [humanCategory, clothes]);
 
   return (
     <div className="grid gap-[30px] mb-[23px] ">
       <div className="flex justify-between">
         <div className="flex gap-4 font-bold text-[20px] leading-[24.38px] text-black2">
-          ЖЕНСКИЕ ТОЛСТОВКИ И СВИТШОТЫ
+          {`${nameHuman.toUpperCase()} ${
+            clothes ? clothes.toUpperCase() : "КРОСОВКИ"
+          }`}
           <div className="font-normal text-[20px] leading-[24.38px] text-gcCBCBCB">
             254 678 товаров
           </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { setPrice } from "../../../RTK/sort/SortSlice";
+import { setPrice } from "../../../RTK/filter/filterSlice";
 import { useAppDispatch } from "../../../RTK/store";
 import { PopupClick } from "../../../types/types";
 import RangeSlider from "./RangeSlider/RangeSlider";
@@ -32,7 +32,9 @@ const SortPrice = () => {
   };
 
   // Range Slider
-  const [RangeVal, setRangeVal] = React.useState<number[]>([-1, 100001]);
+  const [RangeVal, setRangeVal] = React.useState<[number, number]>([
+    -1, 100001,
+  ]);
 
   // React.useEffect(() => {
   //   setRangeVal([minVal, maxVal]);
@@ -41,7 +43,7 @@ const SortPrice = () => {
   //   };
   // }, [minVal, maxVal]);
 
-  const updateRange = (e: MouseEvent, data: number[]) => {
+  const updateRange = (e: MouseEvent, data: [number, number]) => {
     // setMinVal(data[0]);
     // setMaxVal(data[1]);
     setRangeVal(data);
@@ -61,6 +63,7 @@ const SortPrice = () => {
 
   const handleChangeRangeVal = () => {
     dispatch(setPrice(RangeVal));
+    setShow(false);
   };
 
   return (

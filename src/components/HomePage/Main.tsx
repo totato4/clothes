@@ -1,6 +1,8 @@
 import React from "react";
+import { MatchMediaProps } from "../../hooks/types";
 import CategoryItems from "../CategoryItems";
 import { Slider } from "../Slider";
+import { useMatchMedia } from "./../../hooks/use-match-media";
 
 const filterTagsArray = [
   "Женские пальто с заклепками",
@@ -52,19 +54,41 @@ const filterTagsArray = [
 ];
 
 const Main = () => {
+  const { isMobile, isTablet, isDesktop }: MatchMediaProps = useMatchMedia();
+
   return (
-    <div className="container max-w-[1149px] mx-auto px-[5px]">
+    <div
+      className={`container max-w-[1149px] mx-auto px-[5px] flex flex-auto ${
+        isMobile && "mt-[90px] "
+      } ${isTablet && "px-3"} `}
+    >
       <div className="">
         <div>
-          <CategoryItems />
-          <CategoryItems />
-          <CategoryItems />
+          <CategoryItems human={"woman"} />
+          <CategoryItems human={"man"} />
+          <CategoryItems human={"kid"} />
         </div>
-        <div className="flex flex-wrap gap-x-[71px] gap-y-[25px] justify-between">
+        <div
+          className={`${
+            isMobile &&
+            "text-[9px] leading-[11px] gap-y-[10px] grid grid-cols-2 justify-between gap-x-1 gap-y-3 items-center "
+          }
+            ${
+              isTablet &&
+              "font-normal grid grid-cols-3 justify-between  items-center text-[11px] leading-[13.41px] gap-x-[71px] gap-y-[25px]"
+            }
+            ${
+              isDesktop &&
+              "font-normal grid grid-cols-5 justify-start whitespace-nowrap text-[11px] leading-[13.41px] gap-x-[71px] gap-y-[25px]"
+            }
+              `}
+        >
           {filterTagsArray.map((obj, i) => (
             <div
               key={i}
-              className="text-[11px] leading-[13.41px] font-normal text-gc1"
+              className={`
+              
+              } text-[11px] leading-[13.41px] font-normal text-gc1 flex`}
             >
               <button className="">{obj}</button>
             </div>

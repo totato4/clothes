@@ -1,8 +1,10 @@
 import React from "react";
-import { setSize } from "../../../RTK/sort/SortSlice";
+import { setSize } from "../../../RTK/filter/filterSlice";
 import { useAppDispatch } from "../../../RTK/store";
 import { PopupClick } from "../../../types/types";
 import CheckBoxRadio from "./CheckBoxRadio";
+
+// 110 STRING
 
 type array = {
   name: string;
@@ -107,7 +109,9 @@ const SortSize: React.FC = () => {
     //  dispatch(setSortColor(Result))
     if (Result.length > 0) {
       const ResultName = Result.map((obj, i) => obj.value);
-      dispatch(setSize(ResultName));
+      // NOT STRING TO ACTIVATE THIS COMPONENT !!!!!!!!!!!!!!!!
+      dispatch(setSize("ResultName"));
+      setShow(false);
     }
   };
 
@@ -148,7 +152,7 @@ const SortSize: React.FC = () => {
         </svg>
       </div>
       {show && (
-        <form action="" onSubmit={handlePreventDefault}>
+        <form action="">
           <div className="flex flex-col z-20 absolute bottom-0 right-0 translate-x-[0%] translate-y-[100%] w-[230px] bg-white shadow-md ">
             <label className="my-5 mr-5 ml-auto cursor-pointer">
               <input
@@ -242,7 +246,7 @@ const SortSize: React.FC = () => {
               </div>
             </div>
             <input
-              type="submit"
+              type="button"
               value="Применить"
               onClick={handleAllValue}
               className="bg-black2 text-white w-[190px] h-[40px] flex justify-center items-center mx-auto my-5 cursor-pointer"

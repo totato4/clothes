@@ -2,12 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import filterSlice from "./filter/filterSlice";
-import sortSlice from "./sort/SortSlice";
+import itemsSlice from "./asyncThunk/items";
 
 export const store = configureStore({
   reducer: {
     filterSlice,
-    sortSlice,
+    itemsSlice,
   },
 });
 

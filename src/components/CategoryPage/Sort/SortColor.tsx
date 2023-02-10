@@ -1,5 +1,5 @@
 import React from "react";
-import { setColor } from "../../../RTK/sort/SortSlice";
+import { setColor } from "../../../RTK/filter/filterSlice";
 import { useAppDispatch } from "../../../RTK/store";
 import { PopupClick } from "../../../types/types";
 import CheckBoxRadio from "./CheckBoxRadio";
@@ -44,31 +44,31 @@ const SortColor: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [red, setRed] = React.useState<{ value: string; checked: boolean }>({
-    value: "red",
+    value: "красный",
     checked: false,
   });
   const [yellow, setYellow] = React.useState<{
     value: string;
     checked: boolean;
   }>({
-    value: "yellow",
+    value: "желтый",
     checked: false,
   });
   const [blue, setBlue] = React.useState<{ value: string; checked: boolean }>({
-    value: "blue",
+    value: "синий",
     checked: false,
   });
 
   const [green, setGreen] = React.useState<{ value: string; checked: boolean }>(
     {
-      value: "green",
+      value: "зеленый",
       checked: false,
     }
   );
 
   const [black, setBlack] = React.useState<{ value: string; checked: boolean }>(
     {
-      value: "black",
+      value: "черный",
       checked: false,
     }
   );
@@ -76,11 +76,11 @@ const SortColor: React.FC = () => {
     value: string;
     checked: boolean;
   }>({
-    value: "orange",
+    value: "оранжевый",
     checked: false,
   });
   const [gray, setGray] = React.useState<{ value: string; checked: boolean }>({
-    value: "gray",
+    value: "серый",
     checked: false,
   });
 
@@ -137,7 +137,9 @@ const SortColor: React.FC = () => {
     //  dispatch(setSortColor(Result))
     if (Result.length > 0) {
       const pureResult = Result.map((obj, i) => obj.value);
-      dispatch(setColor(pureResult));
+      // NOT STRING TO ACTIVATE THIS COMPONENT !!!!!!!!!!!!!!!!
+      dispatch(setColor("pureResult"));
+      setShow(false);
     }
   };
 
@@ -186,7 +188,7 @@ const SortColor: React.FC = () => {
         </svg>
       </div>
       {show && (
-        <form action="" onSubmit={handlePreventDefault}>
+        <form action="">
           <div className="flex flex-col z-20 absolute bottom-0 right-0 translate-x-[0%] translate-y-[100%] w-[230px] bg-white shadow-md ">
             <label className="my-5 mr-5 ml-auto cursor-pointer">
               <input
@@ -306,7 +308,7 @@ const SortColor: React.FC = () => {
               </div>
             </div>
             <input
-              type="submit"
+              type="button"
               value="Применить"
               onClick={handleAllValue}
               className="bg-black2 text-white w-[190px] h-[40px] flex justify-center items-center mx-auto my-5 cursor-pointer"

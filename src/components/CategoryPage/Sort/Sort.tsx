@@ -1,10 +1,10 @@
 import React from "react";
 
 import SortPrice from "./SortPrice";
-import SortSize from "./SortSize";
-import SortColor from "./SortColor";
-import SortBrand from "./SortBrand";
-import SortButton from "./SortButton";
+import { setCategory } from "../../../RTK/filter/filterSlice";
+import { useAppDispatch } from "../../../RTK/store";
+import { useAppSelector } from "./../../../RTK/store";
+import ItemFilter from "./ItemFilter";
 
 const arrayColor = [
   { name: "Красный", quantity: 4566, arrayName: "Color" },
@@ -23,8 +23,18 @@ const arraySize = [
   { name: "L", quantity: 1500, arrayName: "Size" },
   { name: "XL", quantity: 842, arrayName: "Size" },
 ];
+const arrayBrand = [
+  { name: "Бренд1", quantity: 4566, arrayName: "Brand" },
+  { name: "Бренд2", quantity: 15678, arrayName: "Brand" },
+  { name: "Бренд3", quantity: 35678, arrayName: "Brand" },
+];
 
-const Sort = () => {
+const Sort: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const humanCategory = useAppSelector(
+    (state) => state.filterSlice.filter.category.humanCategory
+  );
+
   return (
     <div className="flex justify-between text-[14px] leading-[17.07px] font-normal text-black2 ">
       <div className="flex justify-center items-center  gap-x-[10px]">
@@ -42,14 +52,40 @@ const Sort = () => {
             fill="#E5E5E5"
           />
         </svg>
-        <SortColor />
-        <SortSize />
-        <SortBrand />
-
+        <ItemFilter
+          popupName={"Цвет"}
+          // popupName текст открывающей попап кнопки
+          array={arrayColor}
+          // array массив элементов фильтрации
+          dispatchProps={"setColor"}
+          // здесь указываем в string формате метод диспатча, который будет применяться в компоненте
+        />
+        <ItemFilter
+          popupName={"Размер"}
+          array={arraySize}
+          dispatchProps={"setSize"}
+        />
+        <ItemFilter
+          popupName={"Бренд"}
+          array={arrayBrand}
+          dispatchProps={"setBrand"}
+        />
+        {/* <SortBrand /> */}
         <SortPrice />
       </div>
       <div className="text-[#F8991D]">
-        <SortButton name={"Товары со скидкой"}></SortButton>
+        <button
+          onClick={() =>
+            dispatch(
+              setCategory({
+                clothes: "Товары со скидкой",
+                humanCategory: humanCategory,
+              })
+            )
+          }
+        >
+          Товары со скидкой
+        </button>
       </div>
     </div>
   );

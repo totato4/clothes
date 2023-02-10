@@ -1,8 +1,10 @@
 import React from "react";
-import { setBrand } from "../../../RTK/sort/SortSlice";
+import { setBrand } from "../../../RTK/filter/filterSlice";
 import { useAppDispatch } from "../../../RTK/store";
 import { PopupClick } from "../../../types/types";
 import CheckBoxRadio from "./CheckBoxRadio";
+import { fetchItems } from "./../../../RTK/asyncThunk/items";
+import { useAppSelector } from "./../../../RTK/store";
 
 type array = {
   name: string;
@@ -47,21 +49,21 @@ const SortBrand: React.FC = () => {
     value: string;
     checked: boolean;
   }>({
-    value: "brand1",
+    value: "Бренд1",
     checked: false,
   });
   const [brand2, setbrand2] = React.useState<{
     value: string;
     checked: boolean;
   }>({
-    value: "brand2",
+    value: "Бренд2",
     checked: false,
   });
   const [brand3, setbrand3] = React.useState<{
     value: string;
     checked: boolean;
   }>({
-    value: "brand3",
+    value: "Бренд3",
     checked: false,
   });
 
@@ -88,6 +90,9 @@ const SortBrand: React.FC = () => {
   };
 
   const [allChecked, setAllChecked] = React.useState(false);
+
+  // dispatch
+
   const handleAllValue = () => {
     const PullValue = [brand1, brand2, brand3];
     const Result = PullValue.filter((item) =>
@@ -97,7 +102,8 @@ const SortBrand: React.FC = () => {
     //  dispatch(setSortColor(Result))
     if (Result.length > 0) {
       const ResultName = Result.map((obj, i) => obj.value);
-      dispatch(setBrand(ResultName));
+      dispatch(setBrand("ResultName"));
+      setShow(false);
     }
   };
 
@@ -138,7 +144,7 @@ const SortBrand: React.FC = () => {
         </svg>
       </div>
       {show && (
-        <form action="" onSubmit={handlePreventDefault}>
+        <form action="">
           <div className="flex flex-col z-20 absolute bottom-0 right-0 translate-x-[0%] translate-y-[100%] w-[230px] bg-white shadow-md ">
             <label className="my-5 mr-5 ml-auto cursor-pointer">
               <input
@@ -204,7 +210,7 @@ const SortBrand: React.FC = () => {
               </div>
             </div>
             <input
-              type="submit"
+              type="button"
               value="Применить"
               onClick={handleAllValue}
               className="bg-black2 text-white w-[190px] h-[40px] flex justify-center items-center mx-auto my-5 cursor-pointer"

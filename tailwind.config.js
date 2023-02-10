@@ -20,6 +20,9 @@ module.exports = {
       gridTemplateColumns: {
         Category1: "minmax(145px, 188px) minmax(400px, 911px)",
       },
+      animation: {
+        menuShow: "show-animation 1s forwards",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
