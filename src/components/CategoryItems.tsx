@@ -22,11 +22,12 @@ const humanArray = [
 
 const CategoryItems: React.FC<props> = ({ human }) => {
   const { isTablet, isDesktop, isMobile }: any = useMatchMedia();
-  const [items, setItems] = React.useState([]);
 
   const navigationPrevRef = React.useRef<HTMLButtonElement | null>(null);
   const navigationNextRef = React.useRef<HTMLButtonElement | null>(null);
   const [swipe, setSwipe] = React.useState<SwiperCore | undefined>();
+
+  //
 
   let currentHuman = { type: "", name: "" };
   const currentURL = `http://localhost:3001/items?humanCategory=${human}&_limit=12`;
@@ -36,12 +37,31 @@ const CategoryItems: React.FC<props> = ({ human }) => {
     }
   });
 
-  React.useEffect(() => {
-    axios.get(currentURL).then((response) => {
-      setItems(response.data);
-    });
+  const [items, setItems] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
-    return () => {};
+  const controller = new AbortController();
+
+  const ItemsRequest = () => {
+    axios
+      .get(currentURL, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        setItems(response.data);
+        setLoading(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  React.useEffect(() => {
+    let mounted = true;
+    ItemsRequest();
+    return () => {
+      mounted = false;
+    };
   }, [currentHuman]);
 
   return (
@@ -137,46 +157,46 @@ const CategoryItems: React.FC<props> = ({ human }) => {
           </div>
         )}
         <div className="flex  w-[95vw] max-w-[1144px] sm:px-0 px-[20px] ">
-          <Swiper
-            grabCursor={true}
-            slidesPerView={5}
-            spaceBetween={5}
-            onBeforeInit={(swipper) => setSwipe(swipper)}
-            breakpoints={{
-              0: {
-                slidesPerView: 1,
-                spaceBetween: 5,
-              },
-              350: {
-                slidesPerView: 2,
-                spaceBetween: 5,
-              },
-              420: {
-                slidesPerView: 2,
-                spaceBetween: 5,
-              },
+          {loading && (
+            <Swiper
+              grabCursor={true}
+              slidesPerView={5}
+              spaceBetween={5}
+              onBeforeInit={(swipper) => setSwipe(swipper)}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                  spaceBetween: 5,
+                },
+                350: {
+                  slidesPerView: 2,
+                  spaceBetween: 5,
+                },
+                420: {
+                  slidesPerView: 2,
+                  spaceBetween: 5,
+                },
 
-              500: {
-                slidesPerView: 3,
-                spaceBetween: 5,
-              },
+                500: {
+                  slidesPerView: 3,
+                  spaceBetween: 5,
+                },
 
-              768: {
-                slidesPerView: 5,
-                spaceBetween: 5,
-              },
-              1024: {
-                slidesPerView: 5,
-                spaceBetween: 5,
-              },
-              1182: {
-                slidesPerView: 5,
-                spaceBetween: 5,
-              },
-            }}
-          >
-            {items.length > 1 ? (
-              items.map((obj: Iitem, i: number) => (
+                768: {
+                  slidesPerView: 5,
+                  spaceBetween: 5,
+                },
+                1024: {
+                  slidesPerView: 5,
+                  spaceBetween: 5,
+                },
+                1182: {
+                  slidesPerView: 5,
+                  spaceBetween: 5,
+                },
+              }}
+            >
+              {items.map((obj: Iitem, i: number) => (
                 <SwiperSlide key={obj.id}>
                   <Item
                     clothesCategory={obj.clothesCategory}
@@ -187,11 +207,33 @@ const CategoryItems: React.FC<props> = ({ human }) => {
                     id={obj.id}
                   />
                 </SwiperSlide>
-              ))
-            ) : (
-              <div className="bg-black w-[400px] h-[400px]">Loading...</div>
-            )}
-          </Swiper>
+              ))}
+            </Swiper>
+          )}
+
+          {!loading && (
+            <div className="bg-black w-[400px] h-[400px]">
+              <div className="flex">
+                <div>Loading...</div>{" "}
+                <button
+                  className="h-50 w-100 bg-red-400 border-red-400"
+                  onClick={() => {
+                    controller.abort();
+                  }}
+                >
+                  Отменить загрузку
+                </button>
+                <button
+                  className="h-50 w-100 bg-green-400 border-green-400"
+                  onClick={() => {
+                    ItemsRequest();
+                  }}
+                >
+                  Перезагрузить
+                </button>
+              </div>
+            </div>
+          )}
         </div>
         {isMobile && (
           <div className="absolute right-[0] top-[50%] translate-y-[-50%] z-10">
