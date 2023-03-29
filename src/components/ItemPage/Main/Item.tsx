@@ -1,14 +1,9 @@
-import { spawn } from "child_process";
 import React from "react";
-import { Iitem } from "./../RTK/asyncThunk/types";
+import { Iitem } from "../../../RTK/asyncThunk/types";
 import { Link } from "react-router-dom";
 
-type props = {
-  name: string;
-  price: number;
-  discount: number;
-  imageURL: string;
-};
+type MyIitem = Iitem | imageURL;
+type imageURL = { imageURL: string | undefined };
 
 const Item: React.FC<Iitem> = ({
   id,
@@ -22,13 +17,13 @@ const Item: React.FC<Iitem> = ({
     <div className="text-black2  font-medium text-[11px] leading-[13.41px]">
       <Link key={id} to={`/Item/${id}`}>
         <div className="relative max-w-[224px] max-h-[340px] select-none">
-          {humanCategory == "woman" && (
+          {humanCategory === "woman" && (
             <img src={`../img/w${imageURL && imageURL[4]}.jpg`} alt="" />
           )}
-          {humanCategory == "man" && (
+          {humanCategory === "man" && (
             <img src={`../img/m${imageURL && imageURL[4]}.jpg`} alt="" />
           )}
-          {humanCategory == "kid" && (
+          {humanCategory === "kid" && (
             <img src={`../img/k${imageURL && imageURL[4]}.jpg`} alt="" />
           )}
           {discount ? (

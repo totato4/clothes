@@ -4,8 +4,10 @@ import "./css/index.css";
 import App from "./App";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-// import { setupStore } from "./RTK/store/store";
-import { store } from "./RTK/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { StyledEngineProvider } from "@mui/material";
+
+import store, { persistor } from "./RTK/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <StyledEngineProvider injectFirst>
+          <App />
+        </StyledEngineProvider>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );

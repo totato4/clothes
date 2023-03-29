@@ -1,5 +1,3 @@
-import React from "react";
-
 const Footer = () => {
   return (
     <div className="max-w-[911px] mx-auto text-[11px] leading-[13.41px] text-gc1 font-normal grid gap-y-[10px]">

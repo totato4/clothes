@@ -29,13 +29,22 @@ const Header = () => {
     (state) => state.filterSlice.filter.category
   );
 
-  const [nameHuman, setNameHuman] = React.useState("Женские");
+  const [headerName, setHeaderName] = React.useState("");
 
   React.useEffect(() => {
-    if (humanCategory && clothes) {
-      const value = forWho.filter((obj) => obj.humanCategory == humanCategory);
-
-      setNameHuman(value[0].name);
+    if (humanCategory.length > 1 && clothes) {
+      if (humanCategory == "woman") {
+        setHeaderName("ЖЕНСКИЕ " + clothes);
+      }
+      if (humanCategory == "man") {
+        setHeaderName("МУЖСКИЕ " + clothes);
+      }
+      if (humanCategory == "kid") {
+        setHeaderName("ДЕТСКИЕ " + clothes);
+      }
+    }
+    if (humanCategory.length < 1 && clothes) {
+      setHeaderName(clothes);
     }
   }, [humanCategory, clothes]);
 
@@ -43,9 +52,7 @@ const Header = () => {
     <div className="grid gap-[30px] mb-[23px] ">
       <div className="flex justify-between">
         <div className="flex gap-4 font-bold text-[20px] leading-[24.38px] text-black2">
-          {`${nameHuman.toUpperCase()} ${
-            clothes ? clothes.toUpperCase() : "КРОСОВКИ"
-          }`}
+          {headerName.toUpperCase()}
           <div className="font-normal text-[20px] leading-[24.38px] text-gcCBCBCB">
             254 678 товаров
           </div>

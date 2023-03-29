@@ -1,14 +1,15 @@
 import React from "react";
-import Item from "./Item";
+import { Item, ItemPageLoader } from "../components/ItemPage/Main";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation } from "swiper";
+import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/hash-navigation";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Iitem } from "../RTK/asyncThunk/types";
+import { Iitem, Status } from "../RTK/asyncThunk/types";
 import { useMatchMedia } from "./../hooks";
+import ResetBtn from "./ItemPage/Main/ResetBtn";
 
 type props = {
   human: string;
@@ -22,7 +23,8 @@ const humanArray = [
 
 const CategoryItems: React.FC<props> = ({ human }) => {
   const { isTablet, isDesktop, isMobile }: any = useMatchMedia();
-  const [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState<Iitem[] | []>([]);
+  const [status, setStatus] = React.useState<Status>(Status.LOADING);
 
   const navigationPrevRef = React.useRef<HTMLButtonElement | null>(null);
   const navigationNextRef = React.useRef<HTMLButtonElement | null>(null);
@@ -37,12 +39,54 @@ const CategoryItems: React.FC<props> = ({ human }) => {
   });
 
   React.useEffect(() => {
-    axios.get(currentURL).then((response) => {
-      setItems(response.data);
-    });
+    setStatus(Status.LOADING);
+
+    axios
+      .get(currentURL)
+      .then((response) => {
+        setItems(response.data);
+        setStatus(Status.SUCCESS);
+      })
+      .catch((error) => {
+        setStatus(Status.ERROR);
+        console.log(error);
+      });
 
     return () => {};
   }, [currentHuman]);
+
+  const skeleton = [...new Array(6)].map((_, index) => (
+    <SwiperSlide key={index}>
+      <ItemPageLoader key={index} />
+    </SwiperSlide>
+  ));
+  const myItems = items.map((obj, i) => (
+    <SwiperSlide key={obj.id}>
+      <Item {...obj} />
+    </SwiperSlide>
+  ));
+
+  // Array(8)
+  // .fill(0)
+  // .map((_, index) => <LoadingBlock key={index} />);
+
+  const content = items.map((obj: Iitem, index: number) => {
+    if (status === "loading") {
+      [...new Array(20)].map((_, index) => (
+        <SwiperSlide key={obj.id}>
+          <ItemPageLoader key={index} />
+        </SwiperSlide>
+      ));
+    } else if (status === "success") {
+      return (
+        <SwiperSlide key={obj.id}>
+          <Item {...obj} />
+        </SwiperSlide>
+      );
+    } else if (status === "error") {
+      return <div>Не удалось загрузить товары...</div>;
+    }
+  });
 
   return (
     <div className="container max-w-[1144px] mx-auto mb-[80px]">
@@ -106,7 +150,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
         </div>
       </div>
       <div className="relative ">
-        {isMobile && (
+        {isMobile && status !== "error" && (
           <div className="absolute left-0 top-[50%] translate-y-[-50%] z-10">
             <button onClick={() => swipe?.slidePrev()}>
               <svg
@@ -175,25 +219,16 @@ const CategoryItems: React.FC<props> = ({ human }) => {
               },
             }}
           >
-            {items.length > 1 ? (
-              items.map((obj: Iitem, i: number) => (
-                <SwiperSlide key={obj.id}>
-                  <Item
-                    clothesCategory={obj.clothesCategory}
-                    price={obj.price}
-                    discount={obj.discount}
-                    imageURL={obj.imageURL}
-                    humanCategory={obj.humanCategory}
-                    id={obj.id}
-                  />
-                </SwiperSlide>
-              ))
-            ) : (
-              <div className="bg-black w-[400px] h-[400px]">Loading...</div>
-            )}
+            {status == "loading" && skeleton}
+            {status == "success" && myItems}
           </Swiper>
+          {status == "error" && (
+            <div className="mr-auto">
+              <ResetBtn />
+            </div>
+          )}
         </div>
-        {isMobile && (
+        {isMobile && status !== "error" && (
           <div className="absolute right-[0] top-[50%] translate-y-[-50%] z-10">
             <button onClick={() => swipe?.slideNext()}>
               <svg

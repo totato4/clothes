@@ -6,7 +6,7 @@ import ItemPage from "./pages/ItemPage";
 
 function App() {
   return (
-    <div className="font-montserat overflow-hidden flex flex-col min-h-full">
+    <div className="font-montserat overflow-hidden flex flex-col min-h-screen">
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="" element={<HomePage />} />

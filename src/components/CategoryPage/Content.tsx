@@ -1,19 +1,6 @@
 import React from "react";
-import Navigate from "./Navigate";
-import Item from "./../Item";
+import { Item } from "./../ItemPage/Main";
 import { useAppSelector } from "./../../RTK/store";
-import { Iitem } from "./../../RTK/asyncThunk/types";
-import { useAppDispatch } from "./../../RTK/store";
-import { fetchItems } from "./../../RTK/asyncThunk/items";
-import {
-  filterBrandSelector,
-  filterColorSelector,
-  filterPageSelector,
-  filterQuerySelector,
-  filterSizeSelector,
-  filterPriceSelector,
-} from "./../../RTK/filter/selectors";
-import { useSearchParams, useParams } from "react-router-dom";
 import {
   setBrand,
   setCategoryClothes,
@@ -23,15 +10,20 @@ import {
   setQuery,
   setSize,
 } from "../../RTK/filter/filterSlice";
+import { Iitem } from "./../../RTK/asyncThunk/types";
+import { useAppDispatch } from "./../../RTK/store";
+import { fetchItems } from "./../../RTK/asyncThunk/items";
+import {
+  filterBrandSelector,
+  filterColorSelector,
+  filterQuerySelector,
+  filterSizeSelector,
+  filterPriceSelector,
+} from "./../../RTK/filter/selectors";
+import { useSearchParams } from "react-router-dom";
 
-interface paramsProp {
-  search?: string;
-  size?: string;
-  brand?: string;
-  color?: string;
-  clothes?: string;
-  human?: string;
-}
+import ItemPageLoader from "./../ItemPage/Main/ItemPageLoader";
+import ResetBtn from "../ItemPage/Main/ResetBtn";
 
 const CategoryContent: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +45,7 @@ const CategoryContent: React.FC = () => {
     dispatch(setBrand(brandQuery));
     dispatch(setSize(sizeQuery));
     dispatch(setColor(colorQuery));
-    // @ts-ignore
+
     dispatch(setPage(Number(pageQuery)));
     dispatch(setCategoryClothes(clothesQuery));
     dispatch(setCategoryHuman(humanQuery));
@@ -70,6 +62,7 @@ const CategoryContent: React.FC = () => {
   // ALL SELECTORS
 
   const items = useAppSelector((state) => state.itemsSlice.items);
+  const status = useAppSelector((state) => state.itemsSlice.status);
   const { clothes, humanCategory } = useAppSelector(
     (state) => state.filterSlice.filter.category
   );
@@ -79,7 +72,7 @@ const CategoryContent: React.FC = () => {
   const brandLink = useAppSelector(filterBrandSelector);
   const sizeLink = useAppSelector(filterSizeSelector);
   const colorLink = useAppSelector(filterColorSelector);
-  const pageLink = useAppSelector(filterPageSelector);
+  const pageLink = useAppSelector((state) => state.itemsSlice.currentPage);
   const queryLink = useAppSelector(filterQuerySelector);
   const priceLink = useAppSelector(filterPriceSelector);
   //
@@ -126,25 +119,25 @@ const CategoryContent: React.FC = () => {
     priceLink,
   ]);
 
+  // Render Components
+
+  const successBlock = items.map((obj: Iitem, i) => (
+    <Item key={obj.id} {...obj} />
+  ));
+  const loadingBlock = [...new Array(8)].map((_, index) => (
+    <ItemPageLoader key={index} />
+  ));
+  const errorBlock = (
+    <div className="m-auto max-h-300px max-w-300px">
+      <ResetBtn />
+    </div>
+  );
+
   return (
-    <div className="flex flex-wrap gap-x-[5px] gap-y-[30px]">
-      {items.length !== 0 ? (
-        items.map((obj: Iitem, i) => (
-          <Item
-            key={obj.id}
-            {...obj}
-            // imageURL={obj.imageURL}
-            // price={obj.price}
-            // discount={obj.discount}
-            // clothesCategory={obj.clothesCategory}
-          />
-        ))
-      ) : (
-        <div className="text-lg font-semibold h-[500px] flex items-center justify-center mx-auto">
-          {" "}
-          Товаров по запросу не найдено..
-        </div>
-      )}
+    <div className="flex flex-wrap gap-x-[5px] gap-y-[30px] min-h-[500px] ">
+      {status === "loading" && loadingBlock}
+      {status === "success" && successBlock}
+      {status === "error" && errorBlock}
     </div>
   );
 };

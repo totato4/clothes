@@ -8,6 +8,4 @@ export const filterColorSelector = (state: RootState) => state.filterSlice.filte
 export const filterBrandSelector = (state: RootState) => state.filterSlice.filter.brand;
 export const filterSizeSelector = (state: RootState) => state.filterSlice.filter.size;
 export const filterPriceSelector = (state: RootState) => state.filterSlice.filter.price;
-export const filterPageSelector = (state: RootState) => state.filterSlice.filter.pagination.page;
-export const filterPageQtySelector = (state: RootState) => state.filterSlice.filter.pagination.pageQty;
 export const filterQuerySelector = (state: RootState) => state.filterSlice.filter.query;

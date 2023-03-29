@@ -3,6 +3,7 @@ import { MatchMediaProps } from "../../hooks/types";
 import CategoryItems from "../CategoryItems";
 import { Slider } from "../Slider";
 import { useMatchMedia } from "./../../hooks/use-match-media";
+import Button from "@mui/material/Button";
 
 const filterTagsArray = [
   "Женские пальто с заклепками",
@@ -71,7 +72,7 @@ const Main = () => {
         <div
           className={`${
             isMobile &&
-            "text-[9px] leading-[11px] gap-y-[10px] grid grid-cols-2 justify-between gap-x-1 gap-y-3 items-center "
+            "text-[9px] leading-[11px]  grid grid-cols-2 justify-between gap-x-1 gap-y-3 items-center "
           }
             ${
               isTablet &&

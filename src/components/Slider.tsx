@@ -1,5 +1,5 @@
 import React from "react";
-import Item from "./Item";
+import { Item } from "./ItemPage/Main";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { FreeMode, Navigation } from "swiper";

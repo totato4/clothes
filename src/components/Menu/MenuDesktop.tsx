@@ -3,7 +3,7 @@ import debounce from "lodash.debounce";
 import HeaderDropMenu from "../HeaderDropMenu";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../RTK/store";
-import { setCategory, setQuery } from "../../RTK/filter/filterSlice";
+import { setCategory, setPage, setQuery } from "../../RTK/filter/filterSlice";
 import { PopupClick, ICategories } from "../../types/types";
 
 export const categories = [
@@ -74,10 +74,12 @@ const MenuDesktop = () => {
     dispatch(setQuery(""));
     setValue("");
     inputRef.current?.focus();
+    dispatch(setPage(1));
   };
   const updateSearchValue = React.useCallback(
     debounce((str: string) => {
       dispatch(setQuery(str));
+      dispatch(setPage(1));
     }, 1000),
     []
   );
@@ -92,9 +94,7 @@ const MenuDesktop = () => {
       <div className=" font-montserat max-w-[1140px] mx-auto  select-none relative">
         <div className="flex justify-between items-center pt-5 pb-5 ">
           <div className="text-yc1 xl:text-[25px] leading-[30.48px] font-bold">
-            <Link to={"/"}>
-              <button>LOGO</button>
-            </Link>
+            <Link to={"/"}>LOGO</Link>
           </div>
           <nav>
             <ul className=" flex gap-14 justify-center items-center align-middle font-normal text-[16px] leading-[19.5px]">
@@ -135,7 +135,8 @@ const MenuDesktop = () => {
             <input
               type="text"
               value={value}
-              className=" placeholder:text-gc1 placeholder:font-normal placeholder:pl-[34px]  w-[188px] h-5"
+              className=" placeholder:text-gc1 placeholder:font-normal w-[188px] h-[20px] border-white text-[12px] indent-[34px] outline-none focus:outline-none focus:border-white
+              shadow-none"
               placeholder="Например: Платье Gucci"
               onChange={(e) => onChangeInput(e)}
             />
@@ -143,8 +144,8 @@ const MenuDesktop = () => {
               <div className="absolute right-0">
                 <svg
                   onClick={onClickClear}
-                  width="14px"
-                  height="14px"
+                  width="20px"
+                  height="20px"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

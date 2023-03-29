@@ -6,54 +6,7 @@ import {
   setCategoryClothes,
   setCategoryHuman,
 } from "../../RTK/filter/filterSlice";
-
-const humanArray = [
-  {
-    text: "ЖЕНЩИНАМ",
-    human: "woman",
-  },
-  {
-    text: "МУЖЧИНАМ",
-    human: "man",
-  },
-  {
-    text: "ДЕТЯМ",
-    human: "kid",
-  },
-];
-
-const SubCategoryArr = [
-  [
-    "Футболки",
-    "Штаны",
-    "Майки",
-    "Джинсы",
-    "Куртки",
-    "Рубашки",
-    "Толстовки",
-    "Брюки",
-  ],
-  ["Кроссовки", "Туфли", "Ботинки", "Тапочки", "Сандали"],
-  ["Брелки", "Цепочки", "Ожерелья", "Галстуки"],
-  [
-    "Кросовки для бега",
-    "Спортивные костюмы",
-    "Шапочки для бассейна",
-    "Футболки для бега",
-    "Тренировочные маски",
-  ],
-  ["Резинки для волос", "Заколки"],
-  ["Товары со скидкой", "Уцененные товары"],
-];
-
-const CategoryArr = [
-  [" Одежда "],
-  ["Обувь  "],
-  [" Аксессуары "],
-  ["Спорт  "],
-  [" Красота "],
-  [" Распродажа "],
-];
+import { humanArray, CategoryArr, SubCategoryArr } from "./Constants";
 
 const MenuMobile = () => {
   const scrollDirection = useScrollDirection();
@@ -68,16 +21,22 @@ const MenuMobile = () => {
   const [humanState, setHumanState] = React.useState("");
   const [categoryState, setCategoryState] = React.useState(0);
 
-  const HandleChange1 = (human: string) => {
+  const goBack = () => {
+    if (menuState > 1) {
+      setMenuState(menuState - 1);
+    }
+  };
+
+  const humanCategoryChange = (human: string) => {
     setMenuState(2);
     setHumanState(human);
   };
 
-  const HandleChange2 = (i: number) => {
+  const CategoryChange = (i: number) => {
     setMenuState(3);
     setCategoryState(i);
   };
-  const HandleChange3 = (obj: string) => {
+  const SubCategoryChange = (obj: string) => {
     dispatch(setCategoryHuman(humanState));
     dispatch(setCategoryClothes(obj));
     setShowMenu(false);
@@ -92,7 +51,7 @@ const MenuMobile = () => {
     <li
       className="border-b border-b-gcE5 w-full  flex justify-between px-[20px] font-montserat font-normal text-sm  h-[60px] items-center"
       key={i}
-      onClick={() => HandleChange1(obj.human)}
+      onClick={() => humanCategoryChange(obj.human)}
     >
       <div className="">{obj.text}</div>
       <svg
@@ -116,7 +75,7 @@ const MenuMobile = () => {
     <li
       className="border-b border-b-gcE5 w-full  flex justify-between px-[20px] font-montserat font-normal text-sm  h-[60px] items-center"
       key={i}
-      onClick={() => HandleChange2(i)}
+      onClick={() => CategoryChange(i)}
     >
       <div>{obj}</div>
       <svg
@@ -140,7 +99,7 @@ const MenuMobile = () => {
     <Link key={i} to={`/Category?human=${humanState}&clothes=${obj}`}>
       <li
         className="border-b border-b-gcE5 w-full  flex justify-between px-[20px] font-montserat font-normal text-sm  h-[60px] items-center"
-        onClick={() => HandleChange3(obj)}
+        onClick={() => SubCategoryChange(obj)}
       >
         <div>{obj}</div>
         <div>
@@ -173,7 +132,6 @@ const MenuMobile = () => {
     }  z-40 transition-all duration-150
     `}
     >
-      {/* ${scrollDirection === "down" ? "-top-20" : "top-0"} */}
       <div className="z-40">
         <Link to="/">
           <svg
@@ -239,9 +197,36 @@ const MenuMobile = () => {
           } transition-transform duration-300 top-[70px] z-30  absolute  left-0 bg-white w-full h-screen`}
         >
           <div className="flex flex-col list-none  w-full">
-            {menuState == 1 && humanComponent}
-            {menuState == 2 && CategoryComponent}
-            {menuState == 3 && SubCategoryComponent}
+            <div className="p-[20px] flex justify-between items-center text-center ">
+              <div
+                className={`${
+                  menuState === 1 && "opacity-50"
+                } flex gap-x-[10px] text-yc1`}
+                onClick={goBack}
+              >
+                <div className="flex items-center ">
+                  <svg
+                    width="7"
+                    height="14"
+                    viewBox="0 0 7 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 1L1 7L6 13"
+                      stroke="#F8991D"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                Назад
+              </div>
+            </div>
+            {menuState === 1 && humanComponent}
+            {menuState === 2 && CategoryComponent}
+            {menuState === 3 && SubCategoryComponent}
           </div>
         </div>
       }

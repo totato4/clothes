@@ -1,11 +1,4 @@
-import React, { ChangeEvent } from "react";
-import { Link as NavLink } from "react-router-dom";
-import { setPage, setPageQty } from "../../RTK/filter/filterSlice";
-import {
-  filterPageSelector,
-  filterPageQtySelector,
-} from "../../RTK/filter/selectors";
-
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAppDispatch, useAppSelector } from "./../../RTK/store";
 import {
   Pagination,
@@ -14,40 +7,65 @@ import {
   Stack,
   Link,
 } from "@mui/material";
+import { setCurrentPages } from "../../RTK/asyncThunk/items";
 
 const Navigate = () => {
   const dispatch = useAppDispatch();
-  const [button, setButton] = React.useState(false);
-  const [pageRange, setpageRange] = React.useState<any>();
-  const page = useAppSelector(filterPageSelector);
-  const pageQty = useAppSelector(filterPageQtySelector);
-  const [value, setValue] = React.useState(1);
-  const items = useAppSelector((state) => state.itemsSlice.items);
+  const { currentPage, countPages } = useAppSelector(
+    (state) => state.itemsSlice
+  );
 
-  // React.useEffect(() => {
-  //   console.log(Math.ceil(items.length / 20));
-  // }, [items]);
+  // theme mui
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#000000",
+        light: "#ae2525",
+        dark: "#000000",
+        contrastText: "#fff",
+      },
+    },
+  });
 
   return (
-    <>
-      <Stack spacing={2}>
-        <Pagination
-          count={10}
-          page={Number(page)}
-          onChange={(_, num) => dispatch(setPage(num))}
-          showFirstButton
-          showLastButton
-          sx={{ marginY: 3, marginX: "auto" }}
-          // renderItem={(item) => (
-          //   <PaginationItem
-          //     component={NavLink}
-          //     to={`/Category/?page=${item.page}`}
-          //     {...item}
-          //   />
-          // )}
-        />
-      </Stack>
-    </>
+    <div className="my-[40px] w-full flex justify-center">
+      {countPages > 1 && (
+        <Stack spacing={2}>
+          {/* <ThemeProvider theme={theme}> */}
+          <Pagination
+            count={countPages}
+            page={Number(currentPage)}
+            onChange={(_, num) => dispatch(setCurrentPages(num))}
+            showFirstButton
+            showLastButton
+            variant="outlined"
+            shape="rounded"
+            sx={{
+              color: "red",
+            }}
+            renderItem={(item) => (
+              <ThemeProvider theme={theme}>
+                <PaginationItem
+                  // вылетает ошибка если ...item не поставить выше стилей
+                  {...item}
+                  variant="text"
+                  color="primary"
+                  sx={{
+                    width: "38px",
+                    height: "50px",
+                    color: "#000000",
+                    background: "#ffffff",
+                    border: "1px solid #E5E5E5",
+                  }}
+                />
+              </ThemeProvider>
+            )}
+          />
+          {/* </ThemeProvider> */}
+        </Stack>
+      )}
+    </div>
   );
 };
 

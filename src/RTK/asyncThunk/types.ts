@@ -21,6 +21,10 @@ export enum Status {
 
 
 export interface IitemsSliceState {
-  items: Iitem[]
+  items: Iitem[];
+  countPages: number;
+  currentPage: number;
   status: Status;
+  itemPageStatus: Status;
+  itemPage: Iitem
 }
