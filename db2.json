@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "email": "fkeokt2@mail.ru",
+      "password": "$2a$10$IEltxJ0xthKcjLs7PBSU9.WijCT5iCeQwSFgm4pW5AwDUx12.GJxa",
+      "id": 1
+    },
+    {
+      "email": "gdsgfsd@mail.ru",
+      "password": "$2a$10$ZDV6LyBfMQq/tmxO2AHu/OsICHGa5ZeebDsK0iXnlvdb6eJpm787O",
+      "id": 2
+    },
+    {
+      "email": "gdfasf@mail.ru",
+      "password": "$2a$10$d0okXBY5PUIpZPEmdv8/tubSOozek6gZjvAowoK8lHT4wt4vzS5Z2",
+      "id": 3
+    },
+    {
+      "email": "kapibara@mail.ru",
+      "password": "$2a$10$m8x92VbqOct4ApB7IEODuu5etdoOEMKBnZMrX3/EN.Cp.Ncmk7sW6",
+      "id": 4
+    },
+    {
+      "email": "gkeag@mail.ru",
+      "password": "$2a$10$m2aL63TFJgQGcWL.Oiw1wujdDJQ539JwggClq9j1KfhX/JNnErnLa",
+      "id": 5
+    },
+    {
+      "email": "kapibarka@mail.ru",
+      "password": "$2a$10$zOTTCqymgflxXXHbzcCRZ.CQ0zVqi6GZ1pTGNwZkQpCybzZP60Hhe",
+      "id": 6
+    },
+    {
+      "email": "kapibar@mail.ru",
+      "password": "$2a$10$Oi.vBzK1uW8hSqANSwebNO/4neZ6YTPPvqL.CCVIH2jsWAJVpnYKG",
+      "id": 7
+    }
+  ]
+}

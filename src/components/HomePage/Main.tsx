@@ -1,7 +1,6 @@
 import React from "react";
 import { MatchMediaProps } from "../../hooks/types";
 import CategoryItems from "../CategoryItems";
-import { Slider } from "../Slider";
 import { useMatchMedia } from "./../../hooks/use-match-media";
 import Button from "@mui/material/Button";
 

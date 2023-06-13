@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Iitem, Status } from './types';
+import { IResponseProduct, Status } from './types';
+import {IProduct} from '../cart/types'
 import axios  from 'axios';
 import { IitemsSliceState } from './types';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 type paramsProps = {
-  id: string;
+  id: number;
   imageURL: string;
     humanCategoryLink: string;
     clothesLink: string;
@@ -16,55 +17,50 @@ type paramsProps = {
   pageLink: number;
   queryLink: string;
   rating: number;
-  discount: number;
+  discountLink: string;
   
 }
 
-type paramsPropsPartial = Partial<paramsProps>;
 
-
-
-export const fetchItems = createAsyncThunk<Iitem[], paramsPropsPartial>(
+export const fetchItems = createAsyncThunk<IResponseProduct, Partial<paramsProps>>(
   `@items/fetchItems`,
 
   async (params, {fulfillWithValue, rejectWithValue, dispatch}) => {
-    const { clothesLink, humanCategoryLink, brandLink, colorLink, sizeLink, pageLink, queryLink, priceLink } = params;
+    const { clothesLink, humanCategoryLink, brandLink, colorLink, sizeLink, pageLink, queryLink, priceLink, discountLink } = params;
     const clothes = clothesLink ? `&clothesCategory=${clothesLink}` : '';
     const humanCategory = humanCategoryLink ? `humanCategory=${humanCategoryLink}` : '';
-    const brand = brandLink?.length !== 0 ? `&brand=${brandLink}` : '';
-    const color = colorLink && colorLink.length !== 0 ? `&color=${colorLink}` : '';
+    // const brand = brandLink?.length !== 0 ? `&brand=${brandLink}` : '';
+    const brand = brandLink ? `&brand=${brandLink}` : '';
+    const color = colorLink && colorLink.length !== 0 ? `&color=${colorLink.toLowerCase()}` : '';
     const size = sizeLink && sizeLink.length !== 0 ? `&size=${sizeLink}` : '';
-    const page = `&_page=${pageLink}&_limit=20`;
-    const query = queryLink && queryLink.length !== 0 ? `&q=${queryLink}` : '';
-    
+    const page = pageLink ? `&page=${pageLink}&limit=20` : `&page=1&limit=20`;
+    const query = queryLink && queryLink.length !== 0 ? `&title=${queryLink}` : '';
+    const discount = discountLink ? `&discount=discount` : "";
     
 
-    const fetchItemsURL = "http://localhost:3001/items?"
+    const fetchItemsURL = "http://localhost:3001/products?"
 
-    const { data, status, headers } = await axios.get(fetchItemsURL + humanCategory + clothes + brand + color + size + page + query)
-    dispatch(setCountPages(Math.ceil(headers["x-total-count"] / 20)))
+    const { data, status } = await axios.get(fetchItemsURL + humanCategory + clothes + brand + color + size + page + query + discount)
+    dispatch(setCountPages(data.totalPages))
       
     if (status < 200 || status >= 300) {
       return rejectWithValue(status)
       
     } else {
-      return fulfillWithValue(data.filter((obj: any) => priceLink && obj.price > priceLink[0] && obj.price < priceLink[1]))
+      // return fulfillWithValue(data.items.filter((obj: any) => priceLink && obj.price > priceLink[0] && obj.price < priceLink[1]))
+      return fulfillWithValue(data)
     }
   }
 );
 
 
-type knowError = {
-  errorMessage: string;
-}
 type Iparam = string | undefined
 
-export const fetchItem = createAsyncThunk<Iitem,  Iparam, {rejectValue: string}>(
+export const fetchItem = createAsyncThunk<IProduct,  Iparam, {rejectValue: string}>(
   `@items/fetchItem`,
-  // @ts-ignore
   async (params, { fulfillWithValue, rejectWithValue }) => {
 
-    const fetchItemURL = `http://localhost:3001/items`
+    const fetchItemURL = `http://localhost:3001/products?`
     
     // await axios.get(fetchItemURL, {
     //   params: {
@@ -77,7 +73,7 @@ export const fetchItem = createAsyncThunk<Iitem,  Iparam, {rejectValue: string}>
     //   return  rejectWithValue("Не удалось загрузить товар")
     //   })
     try {
-      const { data, statusText, status } = await axios.get(fetchItemURL, {
+      const { data, status } = await axios.get(fetchItemURL, {
         params: {
           id: params
         }
@@ -102,8 +98,9 @@ export const fetchItem = createAsyncThunk<Iitem,  Iparam, {rejectValue: string}>
 
 
 const initialState: IitemsSliceState = {
-  items: [],
+  products: [],
   countPages: 10,
+  countProducts: 0,
   currentPage: 1,
   itemPage: {},
   status: Status.LOADING, 
@@ -132,19 +129,19 @@ export const itemsSlice = createSlice({
     builder.addCase(
       fetchItems.pending, (state) => {
       state.status = Status.LOADING;
-      state.items = [];
+      state.products = [];
     })
     builder.addCase(
       fetchItems.fulfilled, (state, action) => {
-      state.items = action.payload;
+      state.products = action.payload.products;
         state.status = Status.SUCCESS;
-       
+      state.countProducts = action.payload.count
       
     })
     builder.addCase(
       fetchItems.rejected, (state, action) => {
       state.status = Status.ERROR;
-        state.items = [];
+        state.products = [];
       console.log(action.error.message)
      
     })

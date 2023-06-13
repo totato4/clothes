@@ -1,4 +1,4 @@
-import { Iitem } from "../asyncThunk/types";
+import { IProduct } from "../asyncThunk/types";
 
 
 
@@ -15,7 +15,7 @@ export enum Status {
 
 
 export interface IitemsSliceState {
-  items: Iitem[]
+  items: IProduct[]
   status: Status;
 }
 
@@ -39,6 +39,7 @@ export interface IFilterState {
       pageQty: number;
     }
     query: string;
+    discount: string;
   }
 }
 

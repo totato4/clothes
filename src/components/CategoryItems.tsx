@@ -7,7 +7,8 @@ import "swiper/css/free-mode";
 import "swiper/css/hash-navigation";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Iitem, Status } from "../RTK/asyncThunk/types";
+import { Status } from "../RTK/asyncThunk/types";
+import { IProduct } from "../RTK/cart/types";
 import { useMatchMedia } from "./../hooks";
 import ResetBtn from "./ItemPage/Main/ResetBtn";
 
@@ -23,7 +24,7 @@ const humanArray = [
 
 const CategoryItems: React.FC<props> = ({ human }) => {
   const { isTablet, isDesktop, isMobile }: any = useMatchMedia();
-  const [items, setItems] = React.useState<Iitem[] | []>([]);
+  const [items, setItems] = React.useState<IProduct[] | []>([]);
   const [status, setStatus] = React.useState<Status>(Status.LOADING);
 
   const navigationPrevRef = React.useRef<HTMLButtonElement | null>(null);
@@ -31,7 +32,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
   const [swipe, setSwipe] = React.useState<SwiperCore | undefined>();
 
   let currentHuman = { type: "", name: "" };
-  const currentURL = `http://localhost:3001/items?humanCategory=${human}&_limit=12`;
+  const currentURL = `http://localhost:3001/products?humanCategory=${human}&limit=12`;
   humanArray.forEach((elem) => {
     if (elem.type == human) {
       currentHuman = elem;
@@ -44,7 +45,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
     axios
       .get(currentURL)
       .then((response) => {
-        setItems(response.data);
+        setItems(response.data.products);
         setStatus(Status.SUCCESS);
       })
       .catch((error) => {
@@ -62,7 +63,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
   ));
   const myItems = items.map((obj, i) => (
     <SwiperSlide key={obj.id}>
-      <Item {...obj} />
+      <Item item={obj} />
     </SwiperSlide>
   ));
 
@@ -70,7 +71,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
   // .fill(0)
   // .map((_, index) => <LoadingBlock key={index} />);
 
-  const content = items.map((obj: Iitem, index: number) => {
+  const content = items.map((obj: IProduct, index: number) => {
     if (status === "loading") {
       [...new Array(20)].map((_, index) => (
         <SwiperSlide key={obj.id}>
@@ -80,7 +81,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
     } else if (status === "success") {
       return (
         <SwiperSlide key={obj.id}>
-          <Item {...obj} />
+          <Item item={obj} />
         </SwiperSlide>
       );
     } else if (status === "error") {

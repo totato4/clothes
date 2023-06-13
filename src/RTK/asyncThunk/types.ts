@@ -1,15 +1,25 @@
-export interface Iitem {
-  id?: string;
-  imageURL?: string;
-    humanCategory?: string;
-    clothesCategory?: string;
-    brand?: string;
-  price?: number;
-  rating?: number;
-  discount?: number;
-  name?: string;
+export interface IProduct {
+  _id: string;
+  id: number;
+  imageURL: string;
+    humanCategory: string;
+    clothesCategory: string;
+    brand: string;
+  price: number;
+  rating: number;
+  discount: number;
+  title: string;
+  count: number;
 }
 
+export interface IResponseProduct {
+  products: IProduct[],
+  limit: number;
+  totalPages: number;
+  count: number;
+  currentPage: number;
+  query: any;
+}
 
 
 export enum Status {
@@ -21,10 +31,11 @@ export enum Status {
 
 
 export interface IitemsSliceState {
-  items: Iitem[];
+  products: IProduct[];
   countPages: number;
+  countProducts: number;
   currentPage: number;
   status: Status;
   itemPageStatus: Status;
-  itemPage: Iitem
+  itemPage: IProduct | {};
 }

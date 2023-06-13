@@ -25,6 +25,7 @@ const forWho = [
 const Header = () => {
   const [showTags, setShowTags] = React.useState(false);
 
+  const { countProducts } = useAppSelector((state) => state.itemsSlice);
   const { humanCategory, clothes } = useAppSelector(
     (state) => state.filterSlice.filter.category
   );
@@ -54,7 +55,7 @@ const Header = () => {
         <div className="flex gap-4 font-bold text-[20px] leading-[24.38px] text-black2">
           {headerName.toUpperCase()}
           <div className="font-normal text-[20px] leading-[24.38px] text-gcCBCBCB">
-            254 678 товаров
+            {countProducts} товаров
           </div>
         </div>
         <div className="flex items-center gap-[10px]">

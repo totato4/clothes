@@ -39,6 +39,7 @@ const initialState: IFilterState = {
       pageQty: 10,
     },
     query: "",
+    discount: "",
     }
   }
 
@@ -80,12 +81,17 @@ export const filterSlice = createSlice({
     },
     setQuery(state, action: PayloadAction<string>) {
       state.filter.query = action.payload;
-  },
+    },
+    setDiscount(state, action: PayloadAction<string>) {
+      state.filter.discount = action.payload
+    }
   },
   })
 
 
 
-export const { setCategory, setCategoriesArray, setColor, setBrand, setSize, setPrice, setPage, setPageQty, setQuery, setCategoryClothes, setCategoryHuman } = filterSlice.actions;
+export const { setCategory, setCategoriesArray, setColor,
+  setBrand, setSize, setPrice, setPage, setPageQty,
+  setQuery, setCategoryClothes, setCategoryHuman, setDiscount } = filterSlice.actions;
 
 export default filterSlice.reducer;

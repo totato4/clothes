@@ -3,6 +3,8 @@ import { TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import filterSlice from "./filter/filterSlice";
 import itemsSlice from "./asyncThunk/items";
+import authSlice from './auth/auth';
+import cartSlice from "./cart/cartSlice";
 import {
   persistStore,
   persistReducer,
@@ -22,7 +24,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     filterSlice,
-    itemsSlice,
+  itemsSlice,
+  authSlice,
+    cartSlice
   });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

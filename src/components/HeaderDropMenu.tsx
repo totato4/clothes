@@ -38,24 +38,26 @@ const filterArray = [
   [" Распродажа "],
 ];
 
-// const brands = ["Бренд1", "Бренд2", "Бренд3"];
+const brands = ["Бренд1", "Бренд2", "Бренд3"];
 
-// const humanCategory = ["woman", "man", "kid"];
-// const itemColor = [
-//   "красный",
-//   "синий",
-//   "зеленый",
-//   "желтый",
-//   "черный",
-//   "оранжевый",
-//   "серый",
-// ];
-// const itemSize = ["XS", "M", "L", "S", "XL"];
+const humanCategory = ["woman", "man", "kid"];
+const itemColor = [
+  "красный",
+  "синий",
+  "зеленый",
+  "желтый",
+  "черный",
+  "оранжевый",
+  "серый",
+];
+const itemSize = ["XS", "M", "L", "S", "XL"];
 
-// const clothesAll = dropSubCategoryArray.flat(1);
-// clothesAll.pop();
-// clothesAll.pop();
-// var rand = Math.floor(Math.random() * clothesAll.length);
+const clothesAll = dropSubCategoryArray.flat(1);
+clothesAll.pop();
+clothesAll.pop();
+var rand = Math.floor(Math.random() * clothesAll.length);
+
+// СОЗДАНИЕ МАССИВА ТОВАРОВ УКАЖИ В LENGTH КОЛИЧЕСТВО СОЗДАННЫХ ТОВАРОВ 500 без скидки и 120 со скидкой я делал
 
 // const me = Array.from({ length: 120 }).map((obj, i: number) => ({
 //   id: i + 500,
@@ -75,8 +77,11 @@ const filterArray = [
 //   color: itemColor[Math.floor(Math.random() * itemColor.length)],
 //   size: itemSize[Math.floor(Math.random() * itemSize.length)],
 // }));
-
-// console.log(me);
+// // @ts-ignore
+// const fullMe = me.map((o, i) => {
+//   return { ...o, title: o.clothesCategory };
+// });
+// console.log(fullMe);
 
 type props = { category: ICategories; show: boolean; setShow: any };
 

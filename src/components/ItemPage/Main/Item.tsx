@@ -1,18 +1,21 @@
 import React from "react";
-import { Iitem } from "../../../RTK/asyncThunk/types";
+import { IProduct } from "../../../RTK/cart/types";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../RTK/store";
+import { setCart } from "../../../RTK/cart/cartSlice";
 
-type MyIitem = Iitem | imageURL;
+type MyIitem = IProduct | imageURL;
 type imageURL = { imageURL: string | undefined };
+type props = {
+  item: IProduct;
+  children?: any;
+};
 
-const Item: React.FC<Iitem> = ({
-  id,
-  price,
-  clothesCategory,
-  discount,
-  imageURL,
-  humanCategory,
-}) => {
+const Item: React.FC<props> = ({ item, children }) => {
+  const dispatch = useAppDispatch();
+  const { id, price, clothesCategory, discount, imageURL, humanCategory } =
+    item;
+
   return (
     <div className="text-black2  font-medium text-[11px] leading-[13.41px]">
       <Link key={id} to={`/Item/${id}`}>
@@ -36,18 +39,19 @@ const Item: React.FC<Iitem> = ({
         </div>
       </Link>
       <span className="text-[10px] leading-[12.19px]">{clothesCategory}</span>
-      <div className="flex gap-2">
+      <div className="flex  gap-2">
         <span className={`${discount !== 0 && discount ? "line-through" : ""}`}>
           {price} ₽
         </span>
         {discount !== 0 && discount && price ? (
           <span className="text-yc1">
-            {Math.round(price - (discount / 100) * price)} ₽
+            {Math.ceil(price - (discount / 100) * price)} ₽
           </span>
         ) : (
           ""
         )}
       </div>
+      {children}
     </div>
   );
 };

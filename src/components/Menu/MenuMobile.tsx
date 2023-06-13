@@ -1,5 +1,4 @@
 import React from "react";
-import { useScrollDirection } from "./useScrollDirection";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../RTK/store";
 import {
@@ -7,6 +6,7 @@ import {
   setCategoryHuman,
 } from "../../RTK/filter/filterSlice";
 import { humanArray, CategoryArr, SubCategoryArr } from "./Constants";
+import { useScrollDirection } from "./../../hooks/useScrollDirection";
 
 const MenuMobile = () => {
   const scrollDirection = useScrollDirection();
@@ -215,9 +215,9 @@ const MenuMobile = () => {
                     <path
                       d="M6 1L1 7L6 13"
                       stroke="#F8991D"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>

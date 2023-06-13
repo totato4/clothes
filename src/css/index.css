@@ -2,8 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-.Mui-selected {
-  color: black;
-  background-color: white;
-  border-radius: 0;
+input:focus {
+  outline: none;
+}
+
+input {
+  border: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+#ChatInput :is(:focus, :valid) {
+  border-width: 2px;
+}
+
+#ChatInput::-webkit-scrollbar {
+  width: 0px;
 }

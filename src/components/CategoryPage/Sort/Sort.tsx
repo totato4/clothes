@@ -1,10 +1,11 @@
 import React from "react";
 
 import SortPrice from "./SortPrice";
-import { setCategory } from "../../../RTK/filter/filterSlice";
+import { setCategory, setDiscount } from "../../../RTK/filter/filterSlice";
 import { useAppDispatch } from "../../../RTK/store";
 import { useAppSelector } from "./../../../RTK/store";
 import ItemFilter from "./ItemFilter";
+import { fetchItems } from "../../../RTK/asyncThunk/items";
 
 const arrayColor = [
   { name: "Красный", quantity: 4566, arrayName: "Color" },
@@ -31,6 +32,7 @@ const arrayBrand = [
 
 const Sort: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { discount } = useAppSelector((state) => state.filterSlice.filter);
   const humanCategory = useAppSelector(
     (state) => state.filterSlice.filter.category.humanCategory
   );
@@ -73,15 +75,12 @@ const Sort: React.FC = () => {
         {/* <SortBrand /> */}
         <SortPrice />
       </div>
-      <div className="text-[#F8991D]">
+      <div className={`${discount === "discount" && "text-[#F8991D]"}`}>
         <button
           onClick={() =>
-            dispatch(
-              setCategory({
-                clothes: "Товары со скидкой",
-                humanCategory: humanCategory,
-              })
-            )
+            discount === "discount"
+              ? dispatch(setDiscount(""))
+              : dispatch(setDiscount("discount"))
           }
         >
           Товары со скидкой

@@ -6,11 +6,12 @@ import {
   setCategoryClothes,
   setCategoryHuman,
   setColor,
+  setDiscount,
   setPage,
   setQuery,
   setSize,
 } from "../../RTK/filter/filterSlice";
-import { Iitem } from "./../../RTK/asyncThunk/types";
+import { IProduct } from "./../../RTK/cart/types";
 import { useAppDispatch } from "./../../RTK/store";
 import { fetchItems } from "./../../RTK/asyncThunk/items";
 import {
@@ -19,6 +20,7 @@ import {
   filterQuerySelector,
   filterSizeSelector,
   filterPriceSelector,
+  filterDiscountSelector,
 } from "./../../RTK/filter/selectors";
 import { useSearchParams } from "react-router-dom";
 
@@ -39,6 +41,7 @@ const CategoryContent: React.FC = () => {
   // const priceQuery = searchParams.get("pri") || "";
   const clothesQuery = searchParams.get("clothes") || "";
   const humanQuery = searchParams.get("human") || "";
+  const discountQuery = searchParams.get("discount") || "";
 
   React.useEffect(() => {
     dispatch(setQuery(searchQuery));
@@ -49,6 +52,7 @@ const CategoryContent: React.FC = () => {
     dispatch(setPage(Number(pageQuery)));
     dispatch(setCategoryClothes(clothesQuery));
     dispatch(setCategoryHuman(humanQuery));
+    dispatch(setDiscount(discountQuery));
   }, [
     searchQuery,
     brandQuery,
@@ -57,11 +61,12 @@ const CategoryContent: React.FC = () => {
     pageQuery,
     clothesQuery,
     humanQuery,
+    discountQuery,
   ]);
 
   // ALL SELECTORS
 
-  const items = useAppSelector((state) => state.itemsSlice.items);
+  const products = useAppSelector((state) => state.itemsSlice.products);
   const status = useAppSelector((state) => state.itemsSlice.status);
   const { clothes, humanCategory } = useAppSelector(
     (state) => state.filterSlice.filter.category
@@ -75,6 +80,7 @@ const CategoryContent: React.FC = () => {
   const pageLink = useAppSelector((state) => state.itemsSlice.currentPage);
   const queryLink = useAppSelector(filterQuerySelector);
   const priceLink = useAppSelector(filterPriceSelector);
+  const discountLink = useAppSelector(filterDiscountSelector);
   //
 
   React.useEffect(() => {
@@ -93,6 +99,8 @@ const CategoryContent: React.FC = () => {
     if (humanCategoryLink.length > 0) params.human = humanCategory;
     // @ts-ignore
     if (pageLink > 0) params.page = pageLink;
+    // @ts-ignore
+    if (discountLink.length > 0) params.discount = discountLink;
 
     setSearchParams(params);
 
@@ -106,6 +114,7 @@ const CategoryContent: React.FC = () => {
         pageLink,
         queryLink,
         priceLink,
+        discountLink,
       })
     );
   }, [
@@ -117,13 +126,20 @@ const CategoryContent: React.FC = () => {
     pageLink,
     queryLink,
     priceLink,
+    discountLink,
   ]);
 
   // Render Components
 
-  const successBlock = items.map((obj: Iitem, i) => (
-    <Item key={obj.id} {...obj} />
-  ));
+  const successBlock = products.map((obj, i) =>
+    products.length !== 0 ? (
+      <Item key={obj.id} item={obj} />
+    ) : (
+      <div>Товары данной категории отсутствуют</div>
+    )
+  );
+  // console.log(products);
+  // const successBlock = <div>kontent</div>;
   const loadingBlock = [...new Array(8)].map((_, index) => (
     <ItemPageLoader key={index} />
   ));
