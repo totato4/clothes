@@ -13,7 +13,7 @@ type array = {
 type props = {
   popupName: string;
   array: array[];
-  dispatchProps: string;
+  dispatchProps: any;
 };
 
 const ItemFilter: React.FC<props> = ({ popupName, array, dispatchProps }) => {
@@ -70,6 +70,7 @@ const ItemFilter: React.FC<props> = ({ popupName, array, dispatchProps }) => {
 
   const handleSubmit = (event: React.MouseEvent<HTMLInputElement>) => {
     onDispatch(value);
+    // dispatch(dispatchProps(value));
     setShow(false);
   };
 

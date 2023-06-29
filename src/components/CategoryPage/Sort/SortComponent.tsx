@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import SortPrice from "./SortPrice";
-import { setCategory, setDiscount } from "../../../RTK/filter/filterSlice";
-import { useAppDispatch } from "../../../RTK/store";
-import { useAppSelector } from "./../../../RTK/store";
+import {
+  setCategory,
+  setColor,
+  setDiscount,
+  setBrand,
+} from "../../../RTK/filter/filterSlice";
+import { useAppDispatch, useAppSelector } from "../../../RTK/store";
 import ItemFilter from "./ItemFilter";
 import { fetchItems } from "../../../RTK/asyncThunk/items";
+import SortList from "./SortList";
+import ShowButton from "./ShowButton";
+import SortPopup from "./SortPopup";
+import AllChangeButton from "./AllChangeButton";
+import ChooseButton from "./ChooseButton";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 const arrayColor = [
   { name: "Красный", quantity: 4566, arrayName: "Color" },
@@ -30,13 +40,16 @@ const arrayBrand = [
   { name: "Бренд3", quantity: 35678, arrayName: "Brand" },
 ];
 
-const Sort: React.FC = () => {
+const SortComponent: React.FC = () => {
   const dispatch = useAppDispatch();
   const { discount } = useAppSelector((state) => state.filterSlice.filter);
   const humanCategory = useAppSelector(
     (state) => state.filterSlice.filter.category.humanCategory
   );
-
+  const [brand, setBrand] = useState("");
+  const [size, setSize] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { search } = useLocation();
   return (
     <div className="flex justify-between text-[14px] leading-[17.07px] font-normal text-black2 ">
       <div className="flex justify-center items-center  gap-x-[10px]">
@@ -72,11 +85,14 @@ const Sort: React.FC = () => {
           array={arrayBrand}
           dispatchProps={"setBrand"}
         />
-        {/* <SortBrand /> */}
+
         <SortPrice />
       </div>
-      <div className={`${discount === "discount" && "text-[#F8991D]"}`}>
+      <div
+        className={`${discount === "discount" && "text-[#F8991D]"} relative`}
+      >
         <button
+          className=" z-50"
           onClick={() =>
             discount === "discount"
               ? dispatch(setDiscount(""))
@@ -148,4 +164,4 @@ const Sort: React.FC = () => {
 
 // export default MultipleChecks;
 
-export default Sort;
+export default SortComponent;

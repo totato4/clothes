@@ -259,7 +259,8 @@ const CategoryItems: React.FC<props> = ({ human }) => {
         } items-center pt-[20px]  `}
       >
         <div className="text-gc2 w-full border-[0.5px] bg-gc2" />
-        <div className="">
+        {/* onClick scroll to top при переходе на другую страницу */}
+        <div className="" onClick={() => window.scroll(0, 0)}>
           <Link to={`/Category?human=${human}`}>
             <button className=" bg-black2 text-white py-4 px-10 whitespace-nowrap mx-4">
               Показать все

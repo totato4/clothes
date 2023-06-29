@@ -1,6 +1,6 @@
 import React from "react";
 import { PopupClick } from "../../types/types";
-import Sort from "./Sort/Sort";
+import SortComponent from "./Sort/SortComponent";
 import { useAppSelector } from "./../../RTK/store";
 
 const tagsArray = [
@@ -118,7 +118,7 @@ const Header = () => {
           </div>
         )}
       </div>
-      <Sort />
+      <SortComponent />
     </div>
   );
 };

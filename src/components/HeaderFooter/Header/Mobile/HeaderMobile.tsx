@@ -1,14 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../RTK/store";
+import { useScrollDirection } from "../../../../hooks/useScrollDirection";
+import { useAppDispatch } from "../../../../RTK/store";
 import {
   setCategoryClothes,
   setCategoryHuman,
-} from "../../RTK/filter/filterSlice";
-import { humanArray, CategoryArr, SubCategoryArr } from "./Constants";
-import { useScrollDirection } from "./../../hooks/useScrollDirection";
+} from "../../../../RTK/filter/filterSlice";
+import {
+  CategoryArr,
+  SubCategoryArr,
+  humanArray,
+} from "../../../Constants/Constants";
+import { Link } from "react-router-dom";
+import ButtonBack from "./ButtonBack";
 
-const MenuMobile = () => {
+const HeaderMobile = () => {
   const scrollDirection = useScrollDirection();
 
   React.useEffect(() => {}, [scrollDirection]);
@@ -122,7 +127,6 @@ const MenuMobile = () => {
       </li>
     </Link>
   ));
-
   return (
     <div
       className={`
@@ -197,33 +201,7 @@ const MenuMobile = () => {
           } transition-transform duration-300 top-[70px] z-30  absolute  left-0 bg-white w-full h-screen`}
         >
           <div className="flex flex-col list-none  w-full">
-            <div className="p-[20px] flex justify-between items-center text-center ">
-              <div
-                className={`${
-                  menuState === 1 && "opacity-50"
-                } flex gap-x-[10px] text-yc1`}
-                onClick={goBack}
-              >
-                <div className="flex items-center ">
-                  <svg
-                    width="7"
-                    height="14"
-                    viewBox="0 0 7 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 1L1 7L6 13"
-                      stroke="#F8991D"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                Назад
-              </div>
-            </div>
+            <ButtonBack goBack={goBack} menuState={menuState} />
             {menuState === 1 && humanComponent}
             {menuState === 2 && CategoryComponent}
             {menuState === 3 && SubCategoryComponent}
@@ -234,4 +212,4 @@ const MenuMobile = () => {
   );
 };
 
-export default MenuMobile;
+export default HeaderMobile;

@@ -5,7 +5,7 @@ import { RxCross1 } from "react-icons/rx";
 const ShowButton = ({ handleClick, open }: any) => {
   return (
     <div
-      className="bg-green-400 w-[55px] h-[55px] rounded-full cursor-pointer flex justify-center items-center"
+      className="bg-green-400 w-[55px] h-[55px] rounded-full cursor-pointer flex justify-center items-center z-30"
       onClick={handleClick}
     >
       <div className="text-white">

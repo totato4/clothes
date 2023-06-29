@@ -1,6 +1,6 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
-const ChatInput = ({ placeholder, setMessage, message }: any) => {
+const ChatInput = ({ placeholder, setMessage, message, open }: any) => {
   const [inputLength, setInputLength] = useState(false);
   const autoHeight = (e: ChangeEvent<HTMLTextAreaElement>) => {
     // setInputLength(e.target.value.length);
@@ -12,6 +12,11 @@ const ChatInput = ({ placeholder, setMessage, message }: any) => {
     }
     setMessage(e.target.value);
   };
+  // fixed bag, change minHeight input on close chatPannel
+  useEffect(() => {
+    setInputLength(false);
+    setMessage("");
+  }, [open]);
 
   return (
     <div className="w-full flex items-start justify-center py-1">
