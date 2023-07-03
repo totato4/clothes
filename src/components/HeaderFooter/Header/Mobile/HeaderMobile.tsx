@@ -9,7 +9,7 @@ import {
   CategoryArr,
   SubCategoryArr,
   humanArray,
-} from "../../../Constants/Constants";
+} from "../../../../Constants/Constants";
 import { Link } from "react-router-dom";
 import ButtonBack from "./ButtonBack";
 

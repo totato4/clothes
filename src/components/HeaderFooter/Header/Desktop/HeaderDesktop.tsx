@@ -36,28 +36,38 @@ const HeaderDesktop = () => {
     };
   }, []);
 
-  // Close Menu onClick dropdownMenuProps
-  const dropDownCategory = useAppSelector(
-    (state) => state.filterSlice.filter.category.clothes
-  );
   return (
-    <div>
+    <div
+      onMouseLeave={() => {
+        setTimeout(() => {
+          setShow(false);
+        }, 450);
+      }}
+    >
       <HeaderAuth />
-      <div ref={MenuRef} className="mb-8">
+      <div
+        ref={MenuRef}
+        // onMouseLeave={() => setShow(true)}
+        className="pb-8"
+      >
         <div className=" font-montserat max-w-[1140px] mx-auto  select-none relative">
           <div className="flex justify-between items-center pt-5 pb-5 ">
             <HeaderLOGO />
-            <HeaderDesktopMenu
-              category={category}
-              show={show}
-              setShow={setShow}
-              setCategory={setCategory}
-            />
+            <div onMouseEnter={() => setShow(true)}>
+              <HeaderDesktopMenu
+                category={category}
+                show={show}
+                setShow={setShow}
+                setCategory={setCategory}
+              />
+            </div>
             <Search />
           </div>
           <div className="text-gc2 w-full border-[0.5px] bg-gc2 "></div>
         </div>
+        {/* {show && ( */}
         <HeaderDesktopPopup category={category} show={show} setShow={setShow} />
+        {/* )} */}
       </div>
     </div>
   );

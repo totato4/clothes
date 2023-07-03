@@ -52,15 +52,12 @@ const HeaderDesktopPopup: FC<props> = ({ category, show, setShow }) => {
 
   const changeFilter = (i: number) => {
     onSetFilter(i);
-    onSetSubFilter(false);
   };
 
   // subFilter
   const { clothes, humanCategory } = useAppSelector(
     (state) => state.filterSlice.filter.category
   );
-
-  const [subFilter, onSetSubFilter] = React.useState<false | number>(false);
 
   const handleCategory = (obj: string) => {
     dispatch(setCategory({ clothes: obj, humanCategory: category.type }));
@@ -70,22 +67,22 @@ const HeaderDesktopPopup: FC<props> = ({ category, show, setShow }) => {
   };
   return (
     <>
-      {show && (
-        <div className="w-full bg-white shadow-md pb-[70px] select-none absolute z-20">
-          <Category filter={filter} changeFilter={changeFilter} />
-          <div className="w-full border-[0.5px] top-[-1px] mb-[40px] " />
-          <div className="mx-auto max-w-[1144px] ">
-            <div className="font-bold text-[25px] leading-[30.48px] text-gcCBCBCB mb-[30px]">
-              <span>{category.nameFor}</span>
-            </div>
-            <SubCategory
-              filter={filter}
-              handleCategory={handleCategory}
-              category={category}
-            />
+      {/* {show && ( */}
+      <div className="w-full bg-white shadow-md pb-[70px] select-none absolute z-20">
+        <Category filter={filter} changeFilter={changeFilter} />
+        <div className="w-full border-[0.5px] top-[-1px] mb-[40px] " />
+        <div className="mx-auto max-w-[1144px] ">
+          <div className="font-bold text-[25px] leading-[30.48px] text-gcCBCBCB mb-[30px]">
+            <span>{category.nameFor}</span>
           </div>
+          <SubCategory
+            filter={filter}
+            handleCategory={handleCategory}
+            category={category}
+          />
         </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   );
 };

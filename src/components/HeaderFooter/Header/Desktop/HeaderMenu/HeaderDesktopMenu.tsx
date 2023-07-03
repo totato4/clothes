@@ -36,6 +36,7 @@ const HeaderDesktopMenu: FC<props> = ({
           <li
             key={i}
             onClick={() => toggleMenu(obj)}
+            onMouseEnter={() => setCategory(obj)}
             className={
               category.name === obj.name
                 ? "text-yc1 cursor-pointer transition-colors"

@@ -40,9 +40,9 @@ const Search = () => {
   };
 
   return (
-    <div className="font-normal text-[12px] leading-[14.63px] flex items-center justify-center relative w-[188px] h-5">
+    <div className="font-normal text-[12px] leading-[14.63px] flex items-start justify-center relative w-[200px] h-[20px]  desktop:mt-[-5.5px] desktop:mr-[4.4px]">
       {!value && (
-        <div className="absolute left-0">
+        <div className=" w-5 h-5">
           <svg
             width="20"
             height="20"
@@ -62,7 +62,7 @@ const Search = () => {
       <input
         type="text"
         value={value}
-        className=" placeholder:text-gc1 placeholder:font-normal w-[188px] h-[20px] border-white text-[12px] indent-[34px] outline-none focus:outline-none focus:border-white
+        className=" placeholder:text-gc1 placeholder:font-normal w-[200px] h-[20px] border-white text-[12px] outline-none focus:outline-none focus:border-white
               shadow-none"
         placeholder="Например: Платье Gucci"
         onChange={(e) => onChangeInput(e)}

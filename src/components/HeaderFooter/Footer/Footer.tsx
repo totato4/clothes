@@ -1,5 +1,5 @@
 import React from "react";
-import { useMatchMedia } from "./../hooks/use-match-media";
+import { useMatchMedia } from "../../../hooks/use-match-media";
 
 const Footer = () => {
   const { isTablet, isDesktop, isMobile }: any = useMatchMedia();
