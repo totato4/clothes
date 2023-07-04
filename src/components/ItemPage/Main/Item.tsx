@@ -17,7 +17,7 @@ const Item: React.FC<props> = ({ item, children }) => {
     item;
 
   return (
-    <div className="text-black2  font-medium text-[11px] leading-[13.41px]">
+    <div className="text-black2  font-medium text-[11px] leading-[13.41px] flex flex-col gap-y-[5px]">
       <Link key={id} to={`/Item/${id}`}>
         <div className="relative max-w-[224px] max-h-[340px] select-none">
           {humanCategory === "woman" && (

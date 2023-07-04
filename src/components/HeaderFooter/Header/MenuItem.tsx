@@ -18,7 +18,7 @@ const MenuItem = ({
       <span className="hover:text-yc1 cursor-pointer transition duration-100 font-normal text-[16px] leading-[19.5px] ">
         {name}
       </span>
-      <div className="group-hover:visible visible">{children}</div>
+      <div className="group-hover:visible invisible">{children}</div>
     </li>
   );
 };

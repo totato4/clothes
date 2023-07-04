@@ -90,16 +90,16 @@ const CategoryItems: React.FC<props> = ({ human }) => {
   });
 
   return (
-    <div className="container max-w-[1144px] mx-auto mb-[80px]">
-      <div className="flex justify-between">
+    <div className="container max-w-[1144px] mx-auto mt-[36px] mb-[80px]">
+      <div className="flex justify-between mb-[10px] desktop:h-[40px]">
         <div
           className={`${
             isMobile && "mx-auto"
-          } text-ctgName text-[20px] leading-[24.38px] font-bold mb-[20px]`}
+          } text-ctgName text-[20px] leading-[24.38px] font-bold desktop:my-auto`}
         >
           ТОВАРЫ ДЛЯ {currentHuman.name}
         </div>
-        <div>
+        <div className="desktop:h-[40px] flex justify-between items-start desktop:w-[94px] desktop:gap-x-0 gap-x-2">
           {!isMobile && (
             <button onClick={() => swipe?.slidePrev()}>
               <svg
@@ -181,7 +181,7 @@ const CategoryItems: React.FC<props> = ({ human }) => {
             </button>
           </div>
         )}
-        <div className="flex  w-[95vw] max-w-[1144px] sm:px-0 px-[20px] ">
+        <div className="flex  desktop:w-[100vw] w-[95vw] max-w-[1144px] sm:px-0 px-[20px] ">
           <Swiper
             grabCursor={true}
             slidesPerView={5}
@@ -254,19 +254,20 @@ const CategoryItems: React.FC<props> = ({ human }) => {
       </div>
 
       <div
-        className={`flex ${
+        className={`flex gap-x-[19px] ${
           isMobile ? "justify-center" : "justify-between"
-        } items-center pt-[20px]  `}
+        } items-center pt-[18.5px]  `}
       >
-        <div className="text-gc2 w-full border-[0.5px] bg-gc2" />
+        <div className=" w-full border-[0.5px] bg-gc2" />
         {/* onClick scroll to top при переходе на другую страницу */}
-        <div className="" onClick={() => window.scroll(0, 0)}>
-          <Link to={`/Category?human=${human}`}>
-            <button className=" bg-black2 text-white py-4 px-10 whitespace-nowrap mx-4">
-              Показать все
-            </button>
-          </Link>
-        </div>
+        <Link to={`/Category?human=${human}`}>
+          <button
+            className=" bg-black2 text-gc2 text-[14px] font-montserat font-semibold w-[224px] h-[50px] text-center whitespace-nowrap "
+            onClick={() => window.scroll(0, 0)}
+          >
+            Показать все
+          </button>
+        </Link>
         {isMobile && <div className="text-gc2 w-full border-[0.5px] bg-gc2" />}
       </div>
     </div>

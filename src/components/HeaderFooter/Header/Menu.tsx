@@ -1,13 +1,10 @@
-import React, { useRef, useState } from "react";
-import { ICategories } from "../../../types/types";
+import React, { useState } from "react";
 import { useAppDispatch } from "../../../RTK/store";
 import HeaderLOGO from "./Desktop/HeaderLOGO/HeaderLOGO";
 import Search from "./Desktop/SearchInput/Search";
 import MenuItem from "./MenuItem";
 import MenuList from "./MenuList";
 import MenuDropDown from "./MenuDropDown";
-import MenuDropDownList from "./MenuDropDownList";
-import { clothesArray } from "../../../Constants/Constants";
 
 export enum MenuTitle {
   WOMAN = "ЖЕНСКАЯ ОДЕЖДА",
@@ -26,7 +23,7 @@ const Menu = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="w-screen relative">
+    <div onMouseLeave={() => setCategory(0)} className="w-screen relative">
       <div className="max-w-[1144px]  mx-auto  py-6 flex items-center h-[60px]">
         <HeaderLOGO />
         <MenuList>
