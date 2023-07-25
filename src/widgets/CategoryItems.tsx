@@ -10,7 +10,7 @@ import axios from "axios";
 import { Status } from "../RTK/asyncThunk/types";
 import { IProduct } from "../RTK/cart/types";
 import { useMatchMedia } from "./../hooks";
-import ResetBtn from "./ItemPage/Main/ResetBtn";
+import ResetBtn from "../features/ResetBtn";
 
 type props = {
   human: string;
@@ -23,7 +23,7 @@ const humanArray = [
 ];
 
 const CategoryItems: React.FC<props> = ({ human }) => {
-  const { isMobile }: any = useMatchMedia();
+  const { isTablet, isDesktop, isMobile }: any = useMatchMedia();
   const [items, setItems] = React.useState<IProduct[] | []>([]);
   const [status, setStatus] = React.useState<Status>(Status.LOADING);
 

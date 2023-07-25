@@ -1,0 +1,26 @@
+{    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+        // переменные только константы, not let or var
+        "prefer-const": "warn",
+        // нет консолям в коде
+        "no-console": "warn",
+        // одинарные кавычки в коде (кроме classnames), например в src импорта
+        "quotes": ["error", "single"],
+        // двойные ковычки для classnames
+        "jsx-quotes": ["warn", "prefer-double"],
+        // отступы элементов
+        "indent": ["warn", 2],
+        // максимальная длинна jsx кода в одной строчке
+        "max-len": ["warn", {"code": 120}],
+        "coma-dangle": ["warn", "always-multiline"],
+        // точки с запятой ; после кода
+        "semi": ["warn", "always"],
+        // правила порядка импортов сортировка последовательности в компоненте
+        "import/order": ["warn", {"groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"]}],
+        // пробелы между импортами
+        "newlines-between": "always-and-inside-groups"
+    }
+}

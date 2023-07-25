@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../RTK/store";
 import CartList from "../components/CartPage/CartList";
 import { calcTotalPriceAndTotalCount } from "../RTK/cart/cartSlice";
+import Button from "./../components/CartPage/Button";
 import { clearCart } from "../RTK/cart/cartSlice";
 import CartEmpty from "./../components/CartPage/CartEmpty";
 import CartButton from "../features/CartButton";
